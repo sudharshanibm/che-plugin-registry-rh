@@ -1,0 +1,91 @@
+logging:
+  pattern:
+    level: '%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]'
+
+server:
+  port: 9000
+  jetty:
+    threads:
+      max-queue-capacity: 100
+
+spring:
+  profiles:
+    include: ovsx
+  # Disable embedded elasticsearch 
+  autoconfigure:
+    exclude: 
+      - org.jobrunr.spring.autoconfigure.storage.JobRunrElasticSearchStorageAutoConfiguration
+      - org.springframework.boot.actuate.autoconfigure.tracing.zipkin.ZipkinAutoConfiguration
+  cache:
+    jcache:
+      config: classpath:ehcache.xml
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: 
+  flyway:
+    baseline-on-migrate: true
+    baseline-version: 0.1.0
+    baseline-description: JobRunr tables    
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: none
+  session:
+    store-type: jdbc
+    jdbc:
+      initialize-schema: never
+
+  security:
+      oauth2:
+        client:
+          registration:
+            github:
+              client-id: foo
+              client-secret: foo
+
+management:
+  health:
+    probes:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - metrics
+          - prometheus
+org:
+  jobrunr:
+    job-scheduler:
+      enabled: true
+    background-job-server:
+      enabled: true
+      worker-count: 2
+    dashboard:
+      enabled: false
+    database:
+      type: sql
+    miscellaneous:
+      allow-anonymous-data-usage: false
+
+bucket4j:
+  enabled: false
+
+ovsx:
+  elasticsearch:
+    enabled: false
+    clear-on-start: true
+  extension-control:
+    update-on-start: true
+  integrity:
+    key-pair: create # create, renew, delete, 'undefined'
+  databasesearch:
+    enabled: true
+  registry:
+    version: 'v0.19.0'
+  storage:
+    local:
+      directory: /tmp/extensions
