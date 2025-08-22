@@ -7,7 +7,7 @@ set -x
 
 # set same version in Dockerfiles, eg., base image ubi8/python-311
 PYTHON_VERSION="3.11"
-NODEJS_VERSION="18"
+NODEJS_VERSION="20"
 
 DNF="dnf -q"
 # shellcheck disable=SC2086

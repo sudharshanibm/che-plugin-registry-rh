@@ -36,8 +36,6 @@ commands:
       workingDir: ${PROJECTS_ROOT}
       commandLine: |
           set -o xtrace;
-          rm -rf output;
-          mkdir output;
           BUILDER=podman SKIP_TEST=true SKIP_FORMAT=true SKIP_LINT=true NODE_BUILD_OPTIONS="-max-old-space-size=1024" ./build.sh &&
           export IMAGE=image-registry.openshift-image-registry.svc:5000/$(kubectl get sa default -o json | jq -r '.metadata.namespace')/che-plugin-registry &&
           podman tag quay.io/devspaces/pluginregistry-rhel9:next ${IMAGE} &&
@@ -71,8 +69,6 @@ commands:
       workingDir: ${PROJECTS_ROOT}
       commandLine: |
           set -o xtrace;
-          rm -rf output;
-          mkdir output;
           BUILDER=podman ./build.sh
   - id: cleanup-local-files
     exec:
