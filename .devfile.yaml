@@ -33,7 +33,6 @@ commands:
     exec:
       label: "2. Build and Publish a Custom Plugin Registry"
       component: builder
-      workingDir: ${PROJECTS_ROOT}
       commandLine: |
           set -o xtrace;
           BUILDER=podman SKIP_TEST=true SKIP_FORMAT=true SKIP_LINT=true NODE_BUILD_OPTIONS="-max-old-space-size=1024" ./build.sh &&
@@ -45,7 +44,6 @@ commands:
     exec:
       label: "3. Configure Che to use the Custom Plugin Registry"
       component: builder
-      workingDir: ${PROJECTS_ROOT}
       commandLine: |
           export IMAGE=image-registry.openshift-image-registry.svc:5000/$(kubectl get sa default -o json | jq -r '.metadata.namespace')/che-plugin-registry &&
           export CHECLUSTER_NAMESPACE="$(kubectl get checluster --all-namespaces -o json | jq -r '.items[0].metadata.namespace')" &&
@@ -56,7 +54,6 @@ commands:
     exec:
       label: "4. Configure Che to use the embedded Eclipse Open VSX server"
       component: builder
-      workingDir: ${PROJECTS_ROOT}
       commandLine: |
           export CHECLUSTER_NAME="$(kubectl get checluster --all-namespaces -o json | jq -r '.items[0].metadata.name')" &&
           export CHECLUSTER_NAMESPACE="$(kubectl get checluster --all-namespaces -o json | jq -r '.items[0].metadata.namespace')" &&
@@ -66,7 +63,6 @@ commands:
     exec:
       label: "5. Build"
       component: builder
-      workingDir: ${PROJECTS_ROOT}
       commandLine: |
           set -o xtrace;
           BUILDER=podman ./build.sh
