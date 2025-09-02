@@ -4,7 +4,7 @@ metadata:
 components:
   - name: builder
     container:
-      image: quay.io/devfile/universal-developer-image:ubi9-latest
+      image: quay.io/devspaces/udi-rhel9:latest
       memoryRequest: 256Mi
       memoryLimit: 8Gi
       cpuRequest: 100m
